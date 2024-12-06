@@ -8,12 +8,12 @@ version = '1.0'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(11) // Change to your desired Java version
+        languageVersion = JavaLanguageVersion.of(11)
     }
 }
 
 application {
-    mainClass = 'Assign6' // Replace with your main class's fully qualified name
+    mainClass = 'Assign6'
 }
 
 repositories {
@@ -21,7 +21,6 @@ repositories {
 }
 
 dependencies {
-    // Add any required dependencies here, e.g., for testing or additional libraries
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 }
 
@@ -32,7 +31,7 @@ tasks.withType(Test) {
 jar {
     manifest {
         attributes(
-                'Main-Class': application.mainClass.get() // Specifies the entry point for the JAR file
+                'Main-Class': application.mainClass.get()
         )
     }
 }
