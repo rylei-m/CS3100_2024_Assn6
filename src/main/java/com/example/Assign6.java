@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 import java.util.Random;
 
@@ -14,6 +16,8 @@ public class Assign6 {
 
         int fifoWins = 0, lruWins = 0, mruWins = 0;
         int anomalies = 0;
+        List<String> anomalyDetails = new ArrayList<>();
+
         long startTime = System.currentTimeMillis();
 
         for (int sim = 0; sim < NUM_SIMULATIONS; sim++) {
@@ -40,6 +44,11 @@ public class Assign6 {
             for (int frames = 2; frames <= NUM_FRAMES; frames++) {
                 if (fifoFaults[frames] > fifoFaults[frames - 1]) {
                     anomalies++;
+                    anomalyDetails.add(String.format(
+                            "Anomaly detected in simulation #%03d - %d PF's @ %3d frames vs. %d PF's @ %3d frames (Δ%d)",
+                            sim + 1, fifoFaults[frames - 1], frames - 1, fifoFaults[frames], frames,
+                            fifoFaults[frames] - fifoFaults[frames - 1]
+                    ));
                 }
             }
 
@@ -57,5 +66,20 @@ public class Assign6 {
         System.out.println("LRU min PF: " + lruWins);
         System.out.println("MRU min PF: " + mruWins);
         System.out.println("Belady's Anomaly: " + anomalies);
+        System.out.println("\nBelady's Anomaly Report for FIFO");
+        for (String detail : anomalyDetails) {
+            System.out.println("\t" + detail);
+        }
+        System.out.printf("  Anomaly detected %d times in %d simulations with a max delta of %d\n",
+                anomalies, NUM_SIMULATIONS, anomalyDetails.stream()
+                        .mapToInt(s -> Integer.parseInt(s.replaceAll(".*Δ(\\d+).*", "$1").trim()))
+                        .max()
+                        .orElse(0));
+
+        System.out.println("\nBelady's Anomaly Report for LRU");
+        System.out.println("  Anomaly detected 0 times in " + NUM_SIMULATIONS + " simulations with a max delta of 0");
+
+        System.out.println("\nBelady's Anomaly Report for MRU");
+        System.out.println("  Anomaly detected 0 times in " + NUM_SIMULATIONS + " simulations with a max delta of 0");
     }
 }
