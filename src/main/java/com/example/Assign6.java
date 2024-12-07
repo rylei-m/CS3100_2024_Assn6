@@ -1,3 +1,5 @@
+package com.example;
+
 import java.util.concurrent.*;
 import java.util.Random;
 
@@ -8,7 +10,6 @@ public class Assign6 {
     private static final int SEQUENCE_LENGTH = 1000;
 
     public static void main(String[] args) {
-        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         Random random = new Random();
 
         int fifoWins = 0, lruWins = 0, mruWins = 0;
@@ -20,6 +21,8 @@ public class Assign6 {
             int[] fifoFaults = new int[NUM_FRAMES + 1];
             int[] lruFaults = new int[NUM_FRAMES + 1];
             int[] mruFaults = new int[NUM_FRAMES + 1];
+
+            ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
             for (int frames = 1; frames <= NUM_FRAMES; frames++) {
                 executor.execute(new TaskFIFO(sequence, frames, MAX_PAGE_REFERENCE, fifoFaults));

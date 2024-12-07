@@ -1,3 +1,5 @@
+package com.example;
+
 import java.util.*;
 
 public class TaskMRU implements Runnable {
